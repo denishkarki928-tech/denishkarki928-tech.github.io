@@ -107,9 +107,23 @@
     <button class="btn" id="againBtn">Fly Again</button>
   </div>
 
-<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<div class="overlay hidden" id="loadError">
+    <h1>Couldn't load the 3D scene</h1>
+    <p>This experience needs Three.js and a WebGL-capable browser. Check your connection and try refreshing.</p>
+    <a class="btn" href="index.html">Back to portfolio</a>
+  </div>
+
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js" onerror="window.__threeFailed=true"></script>
 <script>
 (function () {
+  function showLoadError() {
+    var el = document.getElementById('loadError'); if (el) el.classList.remove('hidden');
+    var st = document.getElementById('startScreen'); if (st) st.classList.add('hidden');
+  }
+  // No-fail fallback: if the CDN was blocked or WebGL is unavailable, show a
+  // friendly message instead of a blank page or an uncaught crash.
+  if (window.__threeFailed || !window.THREE) { showLoadError(); return; }
+  try {
   const THREE = window.THREE;
 
   // ---------- Scene setup ----------
@@ -398,6 +412,7 @@
   hud.style.display = 'none';
   bestLine.textContent = 'Best: ' + Math.floor(state.best);
   tick();
+  } catch (err) { showLoadError(); }
 })();
 </script>
 </body>

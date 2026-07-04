@@ -164,6 +164,25 @@
     <button class="btn" id="againBtn">Back to Garage</button>
   </div>
 
+<div class="overlay hidden" id="loadError">
+    <h1>Couldn't load the 3D scene</h1>
+    <p>This experience needs Three.js and a WebGL-capable browser. Check your connection and try refreshing.</p>
+    <a class="btn" href="index.html">Back to portfolio</a>
+  </div>
+
+<script>
+  window.__driveShowError = function () {
+    var el = document.getElementById('loadError'); if (el) el.classList.remove('hidden');
+    var st = document.getElementById('startScreen'); if (st) st.classList.add('hidden');
+  };
+  // No-fail fallback: static ES-module imports can't be try/caught, so if the
+  // CDN import never resolves the module never sets __driveReady and this
+  // watchdog reveals a message instead of a blank page. A slow-but-working CDN
+  // clears the watchdog on success (see the module below), so it won't false-fire.
+  window.__driveWatchdog = setTimeout(function () {
+    if (!window.__driveReady) window.__driveShowError();
+  }, 12000);
+</script>
 <script type="importmap">
 { "imports": {
   "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
@@ -177,6 +196,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 (function () {
+  try {
   const L = (a, b, t) => a + (b - a) * t;
 
   const canvas = document.getElementById('game');
@@ -853,6 +873,11 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
   moveCheckpoint();
   applyDayNight();
   tick();
+  window.__driveReady = true;
+  clearTimeout(window.__driveWatchdog);
+  var __le = document.getElementById('loadError'); if (__le) __le.classList.add('hidden');
+  var __ss = document.getElementById('startScreen'); if (__ss) __ss.classList.remove('hidden');
+  } catch (err) { window.__driveShowError && window.__driveShowError(); }
 })();
 </script>
 </body>
