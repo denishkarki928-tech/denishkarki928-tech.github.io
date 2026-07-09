@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Denish Karki — Creative Developer</title>
+<meta name="description" content="Denish Karki — creative developer & designer based in Kathmandu. Real-time 3D, motion, and web experiences with an obsession for craft.">
+<meta name="theme-color" content="#e9e7e1">
+<link rel="icon" href="assets/logo.png" type="image/png">
+<meta property="og:title" content="Denish Karki — Creative Developer">
+<meta property="og:description" content="Creative developer & designer, Kathmandu. Real-time 3D, motion, web.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   DENISH KARKI — minimal & bold. Monochrome, editorial.
+   Almost no effects: type, whitespace, one photo, smooth scroll.
+   Fully readable with zero JS; motion is additive (html.ready).
+   ============================================================ */
+
+:root{
+  --paper:  #e9e7e1;   /* warm-neutral off-white */
+  --paper-2:#e4e1d9;
+  --ink:    #16150f;   /* near-black */
+  --ink-70: rgba(22,21,15,.66);
+  --ink-45: rgba(22,21,15,.45);
+  --ink-20: rgba(22,21,15,.20);
+  --line:   rgba(22,21,15,.16);
+  --invert-bg: #16150f;
+  --invert-ink:#e9e7e1;
+  --ease:   cubic-bezier(.19,1,.22,1);
+  --font:   "Archivo", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --edge:   clamp(20px, 5vw, 84px);
+  --maxw:   1440px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--font); font-weight:400; line-height:1.4;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  font-synthesis:none;
+}
+.lenis.lenis-smooth{ scroll-behavior:auto !important; }
+a{ color:inherit; text-decoration:none; }
+img{ display:block; max-width:100%; }
+::selection{ background:var(--ink); color:var(--paper); }
+html.cursor-on, html.cursor-on a, html.cursor-on button, html.cursor-on .row-link{ cursor:none; }
+
+/* subtle paper grain — barely there */
+.grain{ position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.5; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/></svg>"); }
+
+/* ---------- Custom cursor (minimal) ---------- */
+.cursor{ position:fixed; top:0; left:0; width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%;
+  background:var(--ink); z-index:9999; pointer-events:none; mix-blend-mode:difference; will-change:transform;
+  transition:width .3s var(--ease), height .3s var(--ease), margin .3s var(--ease); }
+.cursor.big{ width:64px; height:64px; margin:-32px 0 0 -32px; }
+@media (hover:none){ .cursor{ display:none; } }
+
+/* ---------- Loader ---------- */
+#loader{ position:fixed; inset:0; z-index:9000; background:var(--paper); display:flex; align-items:flex-end;
+  padding:var(--edge); }
+#loader .count{ font-size:clamp(4rem,20vw,16rem); font-weight:900; letter-spacing:-.05em; line-height:.8;
+  font-variant-numeric:tabular-nums; }
+#loader .count small{ font-size:.14em; font-weight:600; letter-spacing:.02em; vertical-align:top; }
+#loader .lbl{ position:absolute; top:var(--edge); left:var(--edge); font-size:11px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--ink-45); }
+#loader .lbl2{ position:absolute; top:var(--edge); right:var(--edge); font-size:11px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--ink-45); text-align:right; }
+
+/* ---------- Nav ---------- */
+.nav{ position:fixed; top:0; left:0; right:0; z-index:800; display:flex; align-items:center; justify-content:space-between;
+  padding:24px var(--edge); mix-blend-mode:difference; color:#fff; }
+.nav .brand{ font-weight:800; letter-spacing:-.02em; font-size:1rem; }
+.nav .brand sup{ font-size:.6em; font-weight:600; vertical-align:super; opacity:.7; }
+.nav-right{ display:flex; gap:28px; align-items:center; font-size:.82rem; }
+.nav-right a{ position:relative; color:#fff; letter-spacing:.01em; }
+.nav-right a .u{ position:absolute; left:0; right:0; bottom:-3px; height:1px; background:#fff; transform:scaleX(0); transform-origin:right; transition:transform .4s var(--ease); }
+.nav-right a:hover .u{ transform:scaleX(1); transform-origin:left; }
+.nav-right .avail{ display:inline-flex; align-items:center; gap:8px; opacity:.85; }
+.nav-right .avail i{ width:7px; height:7px; border-radius:50%; background:#fff; }
+@media (max-width:720px){ .nav-right .menu{ display:none; } }
+
+/* ---------- Layout ---------- */
+main{ position:relative; z-index:2; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--edge); }
+section{ position:relative; }
+.tag{ font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-45); }
+
+/* reveal masks: default visible, only hide when ready */
+.mask{ overflow:hidden; }
+.mask > .mi{ display:block; }
+html.ready .mask > .mi{ transform:translateY(110%); }
+html.ready .fade{ opacity:0; }
+
+/* word reveal helper */
+.w{ display:inline-block; overflow:hidden; vertical-align:top; }
+.w > .wi{ display:inline-block; will-change:transform; }
+html.ready .w > .wi{ transform:translateY(110%); }
+
+/* ---------- HERO ---------- */
+.hero{ min-height:100svh; display:flex; flex-direction:column; justify-content:space-between; padding:150px var(--edge) 40px; }
+.hero-top{ display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.hero-top .col{ max-width:34ch; }
+.hero-top p{ font-size:clamp(1rem,1.5vw,1.25rem); line-height:1.5; color:var(--ink-70); }
+.hero-top p em{ font-style:italic; color:var(--ink); }
+.hero-name{ margin:0; font-weight:900; letter-spacing:-.045em; line-height:.82;
+  font-size:clamp(4.2rem, 20vw, 20rem); text-transform:uppercase; }
+.hero-name .line{ display:block; }
+.hero-name .reg{ font-size:.16em; font-weight:600; letter-spacing:0; vertical-align:top; }
+.hero-foot{ display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-top:24px; }
+.hero-foot .scroll{ display:inline-flex; align-items:center; gap:12px; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-45); }
+.hero-foot .scroll i{ width:34px; height:1px; background:var(--ink-45); position:relative; overflow:hidden; }
+.hero-foot .scroll i::after{ content:""; position:absolute; inset:0; background:var(--ink); transform:translateX(-100%); animation:swipe 2.4s var(--ease) infinite; }
+@keyframes swipe{ 0%{ transform:translateX(-100%);} 50%{ transform:translateX(0);} 100%{ transform:translateX(100%);} }
+.hero-foot .yr{ font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-45); }
+
+/* ---------- Marquee divider ---------- */
+.divider{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); overflow:hidden; padding:18px 0; }
+.marq{ display:flex; white-space:nowrap; will-change:transform; }
+.marq span{ display:inline-flex; align-items:center; gap:40px; padding-right:40px; font-size:clamp(1.1rem,2vw,1.6rem); font-weight:600; letter-spacing:-.01em; text-transform:uppercase; }
+.marq span b{ font-weight:900; } .marq span i{ font-style:normal; opacity:.3; }
+
+/* ---------- STATEMENT / ABOUT ---------- */
+.about{ padding:clamp(90px,14vh,180px) 0; }
+.about-grid{ display:grid; grid-template-columns:1fr; gap:60px; }
+.statement{ font-weight:500; letter-spacing:-.02em; line-height:1.06; font-size:clamp(1.9rem,4.4vw,4rem); max-width:20ch; }
+.statement em{ font-style:italic; color:var(--ink-45); }
+.about-lower{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(40px,6vw,90px); align-items:end; margin-top:clamp(50px,7vw,110px); }
+@media (max-width:860px){ .about-lower{ grid-template-columns:1fr; } }
+.about-copy p{ font-size:1.05rem; line-height:1.7; color:var(--ink-70); max-width:46ch; }
+.about-copy p + p{ margin-top:20px; }
+.about-meta{ display:flex; gap:50px; margin-top:40px; flex-wrap:wrap; }
+.about-meta .m b{ display:block; font-size:2rem; font-weight:800; letter-spacing:-.02em; }
+.about-meta .m small{ display:block; margin-top:6px; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-45); }
+.portrait{ position:relative; }
+.portrait figure{ margin:0; overflow:hidden; }
+.portrait img{ width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; filter:grayscale(1) contrast(1.02); transition:filter .8s var(--ease), transform 1.4s var(--ease); will-change:transform; }
+.portrait:hover img{ filter:grayscale(0) contrast(1.02); }
+.portrait figcaption{ display:flex; justify-content:space-between; margin-top:14px; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-45); }
+
+/* ---------- WORK (project index) ---------- */
+.work{ padding:clamp(40px,6vh,90px) 0 clamp(80px,12vh,160px); }
+.work-head{ display:flex; justify-content:space-between; align-items:baseline; padding-bottom:22px; border-bottom:1px solid var(--line); }
+.work-head h2{ font-size:clamp(1.4rem,3vw,2.2rem); font-weight:800; letter-spacing:-.02em; margin:0; }
+.work-head .count{ font-size:11px; letter-spacing:.2em; color:var(--ink-45); }
+.row-link{ display:block; position:relative; border-bottom:1px solid var(--line); overflow:hidden; }
+.row-link .row-inner{ position:relative; z-index:2; display:grid; grid-template-columns:0.5fr 3fr 2fr auto; align-items:center; gap:20px;
+  padding:clamp(22px,3vw,40px) 6px; transition:padding-left .5s var(--ease), color .5s var(--ease); }
+.row-link .num{ font-size:.86rem; font-weight:600; color:var(--ink-45); transition:color .5s var(--ease); }
+.row-link .name{ font-size:clamp(1.8rem,5vw,4rem); font-weight:800; letter-spacing:-.03em; text-transform:uppercase; line-height:.95; }
+.row-link .role{ font-size:.9rem; color:var(--ink-70); transition:color .5s var(--ease); }
+.row-link .arrow{ width:34px; height:34px; display:grid; place-items:center; transform:translateX(-6px) rotate(-45deg); opacity:0; transition:opacity .5s var(--ease), transform .5s var(--ease); }
+.row-link .fill{ position:absolute; inset:0; z-index:1; background:var(--invert-bg); transform:translateY(101%); transition:transform .55s var(--ease); }
+.row-link:hover .fill{ transform:translateY(0); }
+.row-link:hover .row-inner{ color:var(--invert-ink); padding-left:26px; }
+.row-link:hover .num, .row-link:hover .role{ color:rgba(233,231,225,.6); }
+.row-link:hover .arrow{ opacity:1; transform:translateX(0) rotate(-45deg); }
+@media (max-width:860px){
+  .row-link .row-inner{ grid-template-columns:auto 1fr auto; }
+  .row-link .role{ display:none; }
+}
+/* cursor-following work preview */
+.work-preview{ position:fixed; top:0; left:0; z-index:900; width:min(30vw,360px); aspect-ratio:16/10;
+  border-radius:6px; overflow:hidden; pointer-events:none; opacity:0;
+  transform:translate(-50%,-50%) scale(.82) rotate(-3deg); transform-origin:center;
+  transition:opacity .45s var(--ease), transform .55s var(--ease); will-change:transform;
+  box-shadow:0 40px 80px -24px rgba(0,0,0,.55); background:var(--paper-2); }
+.work-preview.show{ opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0deg); }
+.work-preview img{ width:100%; height:100%; object-fit:cover; display:block; }
+@media (hover:none){ .work-preview{ display:none; } }
+
+/* ---------- CAPABILITIES ---------- */
+.caps{ padding:clamp(80px,12vh,170px) 0; border-top:1px solid var(--line); }
+.caps-grid{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:clamp(40px,6vw,90px); }
+@media (max-width:860px){ .caps-grid{ grid-template-columns:1fr; gap:40px; } }
+.caps h2{ font-size:clamp(1.9rem,4.4vw,3.4rem); font-weight:800; letter-spacing:-.03em; line-height:1.02; margin:16px 0 0; max-width:14ch; }
+.caps h2 em{ font-style:italic; color:var(--ink-45); }
+.caps-list{ display:flex; flex-direction:column; }
+.caps-list .item{ display:flex; justify-content:space-between; align-items:baseline; gap:20px; padding:22px 0; border-top:1px solid var(--line); }
+.caps-list .item:last-child{ border-bottom:1px solid var(--line); }
+.caps-list .item h3{ font-size:clamp(1.2rem,2.4vw,1.8rem); font-weight:700; letter-spacing:-.02em; margin:0; }
+.caps-list .item p{ margin:8px 0 0; font-size:.92rem; color:var(--ink-70); max-width:38ch; }
+.caps-list .item .tools{ font-size:.8rem; letter-spacing:.04em; color:var(--ink-45); white-space:nowrap; }
+@media (max-width:560px){ .caps-list .item .tools{ display:none; } }
+
+/* ---------- CONTACT ---------- */
+.contact{ padding:clamp(90px,14vh,190px) 0 clamp(60px,8vh,110px); border-top:1px solid var(--line); }
+.contact .tag{ margin-bottom:34px; display:block; }
+.contact a.big{ display:inline-block; font-weight:900; letter-spacing:-.04em; line-height:.9; text-transform:uppercase;
+  font-size:clamp(2.6rem,11vw,10rem); }
+.contact a.big .u{ display:block; height:2px; background:var(--ink); transform:scaleX(0); transform-origin:left; transition:transform .6s var(--ease); margin-top:8px; }
+.contact a.big:hover .u{ transform:scaleX(1); }
+.contact-row{ display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; margin-top:60px; }
+.contact-row .col small{ display:block; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-45); margin-bottom:10px; }
+.contact-row .col a, .contact-row .col span{ display:block; font-size:1.05rem; line-height:1.7; }
+.contact-row .col a{ position:relative; }
+.contact-row .col a::after{ content:""; position:absolute; left:0; bottom:1px; width:100%; height:1px; background:var(--ink); transform:scaleX(0); transform-origin:right; transition:transform .4s var(--ease); }
+.contact-row .col a:hover::after{ transform:scaleX(1); transform-origin:left; }
+
+/* ---------- Footer ---------- */
+footer{ padding:34px var(--edge); border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; font-size:.8rem; color:var(--ink-45); }
+footer a:hover{ color:var(--ink); }
+
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+  html.ready .mask > .mi, html.ready .w > .wi{ transform:none !important; }
+  html.ready .fade{ opacity:1 !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="work-preview" id="workPreview" aria-hidden="true"><img alt="" decoding="async"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <span class="lbl">Denish Karki</span>
+  <span class="lbl2">Creative Developer<br>Kathmandu, NP</span>
+  <div class="count" id="count">0<small>%</small></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#top" class="brand">Denish Karki<sup>®</sup></a>
+  <div class="nav-right">
+    <span class="avail menu"><i></i>Available for work</span>
+    <a href="#work" class="menu">Work<span class="u"></span></a>
+    <a href="#contact">Contact<span class="u"></span></a>
+  </div>
+</nav>
+
+<main>
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-top">
+    <div class="col">
+      <p data-words><em>Creative developer &amp; designer</em> building immersive, real-time experiences for the web — where the craft is in how it moves and feels.</p>
+    </div>
+    <div class="col" style="text-align:right;">
+      <span class="tag fade">( Kathmandu, Nepal — GMT+5:45 )</span>
+    </div>
+  </div>
+
+  <h1 class="hero-name" aria-label="Denish Karki">
+    <span class="line mask"><span class="mi">Denish</span></span>
+    <span class="line mask"><span class="mi">Karki <span class="reg">®</span></span></span>
+  </h1>
+
+  <div class="hero-foot">
+    <span class="scroll fade">Scroll to explore <i></i></span>
+    <span class="yr fade">Portfolio — © <span id="yr"></span></span>
+  </div>
+</header>
+
+<!-- MARQUEE DIVIDER -->
+<div class="divider" aria-hidden="true">
+  <div class="marq" id="marq">
+    <span><b>Real-time 3D</b> <i>/</i> Motion Design <i>/</i> <b>WebGL</b> <i>/</i> Creative Development <i>/</i> <b>Interaction</b> <i>/</i> Front-end <i>/</i> </span>
+    <span><b>Real-time 3D</b> <i>/</i> Motion Design <i>/</i> <b>WebGL</b> <i>/</i> Creative Development <i>/</i> <b>Interaction</b> <i>/</i> Front-end <i>/</i> </span>
+  </div>
+</div>
+
+<!-- STATEMENT / ABOUT -->
+<section class="about" id="about">
+  <div class="wrap">
+    <span class="tag fade">( 01 — About )</span>
+    <p class="statement" data-words style="margin-top:28px;">I make things for the web that make people stop and ask <em>“how was this built?”</em></p>
+
+    <div class="about-lower">
+      <div class="about-copy">
+        <p class="fade">I'm Denish — 18, based in Kathmandu, Nepal. I taught myself by rebuilding the work that made me stare: 3D browser games, motion systems, interfaces that feel alive. I care about the details most people scroll past.</p>
+        <p class="fade">Today I work at the intersection of design and engineering — real-time 3D, hand-tuned motion, and brand experiences where every decision is deliberate.</p>
+        <div class="about-meta">
+          <div class="m fade"><b>3+</b><small>Shipped experiences</small></div>
+          <div class="m fade"><b>2</b><small>3D browser games</small></div>
+          <div class="m fade"><b>2026</b><small>Available for work</small></div>
+        </div>
+      </div>
+      <div class="portrait fade">
+        <figure>
+          <img src="assets/denish.jpg" alt="Denish Karki" loading="lazy">
+        </figure>
+        <figcaption><span>Denish Karki</span><span>Kathmandu, 2026</span></figcaption>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="work-head">
+      <h2 data-words>Selected Work</h2>
+      <span class="count fade">( 02 — Four projects )</span>
+    </div>
+
+    <a class="row-link" href="dubai-drive.html" data-thumb="assets/work-drive.jpg">
+      <span class="fill" aria-hidden="true"></span>
+      <span class="row-inner">
+        <span class="num">01</span>
+        <span class="name">Dubai Drive</span>
+        <span class="role">Real-time 3D driving game · Three.js</span>
+        <span class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      </span>
+    </a>
+    <a class="row-link" href="game.html" data-thumb="assets/work-nebula.jpg">
+      <span class="fill" aria-hidden="true"></span>
+      <span class="row-inner">
+        <span class="num">02</span>
+        <span class="name">Nebula Run</span>
+        <span class="role">Endless-runner in the browser · WebGL</span>
+        <span class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      </span>
+    </a>
+    <a class="row-link" href="https://denishkarki928-tech.github.io/alsaqar-alsarie/" target="_blank" rel="noopener noreferrer" data-thumb="assets/work-saqar.jpg">
+      <span class="fill" aria-hidden="true"></span>
+      <span class="row-inner">
+        <span class="num">03</span>
+        <span class="name">AlSaqar AlSarie</span>
+        <span class="role">Brand landing site · Dubai</span>
+        <span class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      </span>
+    </a>
+    <a class="row-link" href="https://github.com/denishkarki928-tech" target="_blank" rel="noopener noreferrer" data-thumb="assets/work-lab.jpg">
+      <span class="fill" aria-hidden="true"></span>
+      <span class="row-inner">
+        <span class="num">04</span>
+        <span class="name">The Lab</span>
+        <span class="role">Experiments &amp; open source · GitHub</span>
+        <span class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="caps" id="skills">
+  <div class="wrap caps-grid">
+    <div>
+      <span class="tag fade">( 03 — Capabilities )</span>
+      <h2 data-words>What I do, and what I <em>build with</em>.</h2>
+    </div>
+    <div class="caps-list">
+      <div class="item fade">
+        <div><h3>Real-time 3D</h3><p>Interactive scenes, games, and product moments rendered live in the browser.</p></div>
+        <span class="tools">Three.js · WebGL · GLSL</span>
+      </div>
+      <div class="item fade">
+        <div><h3>Motion &amp; Interaction</h3><p>Scroll choreography, transitions, and micro-interactions tuned frame by frame.</p></div>
+        <span class="tools">GSAP · Lenis · Motion</span>
+      </div>
+      <div class="item fade">
+        <div><h3>Front-end</h3><p>Clean, accessible, fast interfaces built to hold up in the real world.</p></div>
+        <span class="tools">JS/TS · React · HTML/CSS</span>
+      </div>
+      <div class="item fade">
+        <div><h3>Design &amp; Story</h3><p>Art direction and narrative — deciding not just how it looks, but how it lands.</p></div>
+        <span class="tools">Figma · 3D · Brand</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <span class="tag fade">( 04 — Let's work together )</span>
+    <a class="big" href="mailto:denishkarki928@gmail.com" aria-label="Email denishkarki928@gmail.com">
+      <span class="mask"><span class="mi">Get in</span></span>
+      <span class="mask"><span class="mi">touch</span></span>
+      <span class="u"></span>
+    </a>
+    <div class="contact-row">
+      <div class="col fade"><small>Email</small><a href="mailto:denishkarki928@gmail.com">denishkarki928@gmail.com</a></div>
+      <div class="col fade"><small>Social</small><a href="https://github.com/denishkarki928-tech" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+      <div class="col fade"><small>Based in</small><span>Kathmandu, Nepal<br>GMT+5:45</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span>© <span id="yr2"></span> Denish Karki — All rights reserved</span>
+  <span>Design &amp; build by Denish</span>
+  <a href="index.html">Classic site ↗</a>
+</footer>
+
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  const HTML = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = matchMedia('(hover:none)').matches;
+  const HAS_GSAP = typeof window.gsap !== 'undefined';
+  const HAS_ST = HAS_GSAP && typeof window.ScrollTrigger !== 'undefined';
+  const HAS_LENIS = typeof window.Lenis !== 'undefined';
+  if(HAS_ST) gsap.registerPlugin(ScrollTrigger);
+
+  const y = new Date().getFullYear();
+  document.getElementById('yr').textContent = y;
+  document.getElementById('yr2').textContent = y;
+
+  // Split [data-words] into per-word masked spans (preserves spacing).
+  function splitWords(el){
+    const words = el.textContent.split(/(\s+)/);
+    el.textContent = '';
+    const inners = [];
+    words.forEach(tk=>{
+      if(/^\s+$/.test(tk)){ el.appendChild(document.createTextNode(' ')); return; }
+      if(tk===''){ return; }
+      const w = document.createElement('span'); w.className='w';
+      const wi = document.createElement('span'); wi.className='wi'; wi.textContent = tk;
+      w.appendChild(wi); el.appendChild(w); inners.push(wi);
+    });
+    return inners;
+  }
+
+  // Loader: count 0→100, then curtain up.
+  function runLoader(done){
+    const loader = document.getElementById('loader');
+    const count = document.getElementById('count');
+    let n = 0;
+    const iv = setInterval(()=>{ n = Math.min(100, n + Math.ceil(Math.random()*9));
+      count.firstChild.textContent = n; if(n>=100){ clearInterval(iv); finish(); } }, 90);
+    function finish(){
+      if(HAS_GSAP && !reduce){
+        gsap.to(loader, { yPercent:-100, duration:1.0, ease:'expo.inOut', delay:0.25, onComplete:()=>{ loader.remove(); done(); } });
+      } else { loader.style.display='none'; loader.remove?.(); done(); }
+    }
+    // safety cap
+    setTimeout(()=>{ if(document.getElementById('loader')){ clearInterval(iv); count.firstChild.textContent=100; finish(); } }, 4000);
+  }
+
+  function reveal(){
+    if(!HAS_GSAP){ HTML.classList.remove('ready'); return; }
+    HTML.classList.add('ready');
+
+    // hero masks in
+    gsap.to('.hero .mask > .mi', { yPercent:0, duration:1.1, ease:'expo.out', stagger:0.08, delay:0.1 });
+    // hero words
+    document.querySelectorAll('.hero [data-words]').forEach(el=>{
+      const inners = splitWords(el);
+      gsap.to(inners, { yPercent:0, duration:0.9, ease:'expo.out', stagger:0.012, delay:0.35 });
+    });
+    // hero fades
+    gsap.to('.hero .fade', { opacity:1, duration:1, ease:'power2.out', stagger:0.1, delay:0.6 });
+    gsap.set('.hero .fade', { opacity:0 });
+
+    if(!HAS_ST){ document.querySelectorAll('.fade').forEach(e=>e.style.opacity='1'); document.querySelectorAll('.mask>.mi,.w>.wi').forEach(e=>e.style.transform='none'); return; }
+
+    // section word headings
+    document.querySelectorAll('[data-words]').forEach(el=>{
+      if(el.closest('.hero')) return;
+      const inners = splitWords(el);
+      gsap.to(inners, { yPercent:0, duration:0.9, ease:'expo.out', stagger:0.02,
+        scrollTrigger:{ trigger:el, start:'top 88%', once:true } });
+    });
+    // contact big masks
+    document.querySelectorAll('.contact .mask > .mi').forEach(mi=>{
+      gsap.to(mi, { yPercent:0, duration:1, ease:'expo.out', scrollTrigger:{ trigger:mi, start:'top 90%', once:true } });
+    });
+    // generic fades
+    gsap.utils.toArray('.fade').forEach(el=>{
+      if(el.closest('.hero')) return;
+      gsap.fromTo(el, { opacity:0, y:26 }, { opacity:1, y:0, duration:1, ease:'power3.out',
+        scrollTrigger:{ trigger:el, start:'top 90%', once:true } });
+    });
+    // subtle portrait parallax
+    const pimg = document.querySelector('.portrait img');
+    if(pimg) gsap.fromTo(pimg, { yPercent:-6 }, { yPercent:6, ease:'none', scrollTrigger:{ trigger:pimg, start:'top bottom', end:'bottom top', scrub:true } });
+  }
+
+  function marquee(){
+    if(!HAS_GSAP || reduce) return;
+    const mq = gsap.to('#marq', { xPercent:-50, repeat:-1, duration:30, ease:'none' });
+    if(HAS_ST){
+      let cur=1, target=1;
+      ScrollTrigger.create({ onUpdate:(s)=>{ target = 1 + Math.min(Math.abs(s.getVelocity())/2000, 2.5); } });
+      gsap.ticker.add(()=>{ cur += (target-cur)*0.08; target += (1-target)*0.03; mq.timeScale(cur); });
+    }
+  }
+
+  function lenisInit(){
+    if(!HAS_LENIS || reduce) return;
+    const lenis = new Lenis({ duration:1.15, easing:(t)=>Math.min(1,1.001-Math.pow(2,-10*t)), smoothWheel:true });
+    HTML.classList.add('lenis');
+    if(HAS_ST){ lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add((t)=> lenis.raf(t*1000)); gsap.ticker.lagSmoothing(0); }
+    else { function raf(t){ lenis.raf(t); requestAnimationFrame(raf); } requestAnimationFrame(raf); }
+    document.querySelectorAll('a[href^="#"]').forEach(a=> a.addEventListener('click',(e)=>{
+      const id=a.getAttribute('href'); if(id.length<2) return; const t=document.querySelector(id); if(!t) return;
+      e.preventDefault(); lenis.scrollTo(t,{ offset:0, duration:1.3 }); }));
+  }
+
+  function cursor(){
+    if(isTouch) return;
+    HTML.classList.add('cursor-on');
+    const c = document.getElementById('cursor');
+    let x=innerWidth/2,y=innerHeight/2,cx=x,cy=y;
+    addEventListener('pointermove',(e)=>{ x=e.clientX; y=e.clientY; }, { passive:true });
+    (function loop(){ cx+=(x-cx)*0.7; cy+=(y-cy)*0.7; c.style.transform=`translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
+    document.querySelectorAll('a, button, .row-link, .portrait').forEach(el=>{
+      el.addEventListener('pointerenter',()=> c.classList.add('big'));
+      el.addEventListener('pointerleave',()=> c.classList.remove('big'));
+    });
+  }
+
+  function workPreview(){
+    if(isTouch) return;
+    const el = document.getElementById('workPreview');
+    const img = el.querySelector('img');
+    const rows = document.querySelectorAll('.row-link[data-thumb]');
+    if(!el || !rows.length) return;
+    // preload
+    rows.forEach(r=>{ const i=new Image(); i.src=r.dataset.thumb; });
+    let tx=innerWidth/2, ty=innerHeight/2, px=tx, py=ty, active=false;
+    addEventListener('pointermove',(e)=>{ tx=e.clientX; ty=e.clientY; }, { passive:true });
+    (function loop(){ px+=(tx-px)*0.14; py+=(ty-py)*0.14; el.style.left=px+'px'; el.style.top=py+'px'; requestAnimationFrame(loop); })();
+    rows.forEach(r=>{
+      r.addEventListener('pointerenter',()=>{ const t=r.dataset.thumb; if(img.getAttribute('src')!==t) img.src=t; el.classList.add('show'); active=true; });
+      r.addEventListener('pointerleave',()=>{ el.classList.remove('show'); active=false; });
+    });
+  }
+
+  function boot(){
+    lenisInit(); cursor(); marquee(); workPreview();
+    runLoader(reveal);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+
+</body>
+</html>
