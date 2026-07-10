@@ -300,6 +300,7 @@ footer a:hover{ color:var(--white); }
   html.ready .mask > i{ transform:none !important; }
 }
 </style>
+<noscript><style>#loader{display:none!important}</style></noscript>
 </head>
 <body>
 
@@ -733,9 +734,33 @@ footer a:hover{ color:var(--white); }
     });
   }
 
-  function boot(){ progress(); marquee(); depth(); cursor(); modal(); loader(reveals); }
+  function safe(fn){ try{ fn(); }catch(e){} }
+  function forceReveal(){
+    var l=document.getElementById('loader'); if(l&&l.parentNode) l.parentNode.removeChild(l);
+    HTML.classList.add('ready');
+    var els=document.querySelectorAll('.rise,.mask');
+    for(var i=0;i<els.length;i++) els[i].classList.add('in');
+  }
+  function boot(){
+    // Each enhancement is isolated: one throwing must never block the loader from lifting.
+    safe(progress); safe(marquee); safe(depth); safe(cursor); safe(modal);
+    try{ loader(reveals); }catch(e){ forceReveal(); }
+  }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
 })();
+</script>
+
+<!-- Independent failsafe: separate tag so a syntax error in the main script can't disable it.
+     Guarantees the loader lifts and content is shown even if the main script never runs. -->
+<script>
+(function(){ setTimeout(function(){
+  try{
+    var l=document.getElementById('loader'); if(l&&l.parentNode) l.parentNode.removeChild(l);
+    document.documentElement.classList.add('ready');
+    var els=document.querySelectorAll('.rise,.mask');
+    for(var i=0;i<els.length;i++) els[i].classList.add('in');
+  }catch(e){}
+}, 4000); })();
 </script>
 </body>
 </html>
