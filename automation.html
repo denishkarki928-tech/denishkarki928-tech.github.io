@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Denish Karki — Al Saqar Automation / Case Study</title>
+<meta name="description" content="Case study: a 12-workflow AI automation suite for AlSaqar AlSarie Cleaning Services (Dubai) — one Claude-powered engine answering WhatsApp, Instagram, Facebook, email, web chat and forms, with booking, lead capture, review chasing and analytics. Built on n8n.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/logo.png" type="image/png">
+<meta property="og:title" content="Denish Karki — Al Saqar Automation Case Study">
+<meta property="og:description" content="12 n8n workflows, 6 intake channels, 1 AI engine. How a Dubai cleaning company's entire front desk was automated.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="assets/work-saqar.jpg">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   DENISH KARKI — ◆ FORM ◆ / CASE STUDY 01: AL SAQAR AUTOMATION
+   Same brutalist monochrome system as form.html.
+   Self-contained; readable with zero JS; motion is additive.
+   ============================================================ */
+:root{
+  --black:#000000; --void:#0a0a0a; --concrete:#111111; --white:#ffffff;
+  --w-70:rgba(255,255,255,.70); --w-50:rgba(255,255,255,.50); --w-40:rgba(255,255,255,.40);
+  --w-30:rgba(255,255,255,.30); --w-20:rgba(255,255,255,.20); --w-10:rgba(255,255,255,.10); --w-05:rgba(255,255,255,.05);
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --font:'General Sans','Archivo',ui-sans-serif,system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --edge:clamp(20px,4vw,56px); --maxw:1440px;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+html,body{ margin:0; padding:0; }
+body{ background:var(--black); color:var(--white); font-family:var(--font); font-weight:400; line-height:1.4;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+a{ color:inherit; text-decoration:none; }
+img{ display:block; max-width:100%; }
+::selection{ background:var(--white); color:var(--black); }
+h1,h2,h3{ margin:0; }
+
+.concrete{ position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.35; background-color:var(--concrete);
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>"),
+    linear-gradient(to right, rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size:180px 180px, 50px 50px, 50px 50px; }
+.vignette{ position:fixed; inset:0; z-index:1; pointer-events:none;
+  background:radial-gradient(circle at 50% 40%, transparent 30%, rgba(0,0,0,.55) 100%); }
+
+.meta{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.32em; color:var(--w-40); }
+.black-type{ font-weight:700; letter-spacing:-.045em; text-transform:uppercase; line-height:.82; }
+
+.nav{ position:fixed; top:0; left:0; right:0; z-index:800; display:flex; align-items:center;
+  justify-content:space-between; padding:22px var(--edge); mix-blend-mode:difference; color:var(--white); }
+.nav .brand{ font-weight:700; letter-spacing:-.01em; font-size:1.1rem; text-transform:uppercase; display:inline-flex; gap:.5em; align-items:center; }
+.nav-right{ display:flex; gap:32px; align-items:center; }
+.nav-right a{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.32em; color:var(--white); position:relative; }
+.nav-right a .u{ position:absolute; left:0; right:0; bottom:-6px; height:2px; background:var(--white); transform:scaleX(0); transform-origin:right; transition:transform .4s var(--ease); }
+.nav-right a:hover .u{ transform:scaleX(1); transform-origin:left; }
+@media (max-width:640px){ .nav-right{ gap:18px; } .nav-right .hide-sm{ display:none; } }
+
+main{ position:relative; z-index:10; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--edge); }
+section{ position:relative; }
+
+html.ready .rise{ opacity:0; transform:translateY(40px); }
+html.ready .rise.in{ opacity:1; transform:none; transition:opacity .9s var(--ease), transform .9s var(--ease); }
+.mask{ overflow:hidden; display:block; }
+.mask > i{ display:block; font-style:normal; }
+html.ready .mask > i{ transform:translateY(105%); }
+html.ready .mask.in > i{ transform:translateY(0); transition:transform 1s var(--ease); }
+
+/* HERO */
+.hero{ position:relative; min-height:88svh; display:flex; flex-direction:column; justify-content:space-between; padding:150px 0 40px; }
+.hero-top{ display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+.hero-head{ border-left:8px solid var(--white); padding-left:clamp(18px,3vw,36px); margin:auto 0; }
+.hero-head .meta{ display:block; margin-bottom:1.4rem; color:var(--w-50); }
+.hero-name{ font-size:clamp(3rem,12vw,12rem); }
+.hero-sub{ margin-top:1.8rem; max-width:44ch; font-size:clamp(.95rem,1.5vw,1.2rem); font-weight:600;
+  text-transform:uppercase; letter-spacing:.01em; line-height:1.35; color:var(--w-50); }
+.hero-sub b{ color:var(--white); font-weight:700; }
+.hero-foot{ display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; }
+
+/* fact sheet */
+.facts{ margin-top:clamp(40px,6vw,80px); display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--w-10); }
+@media (max-width:900px){ .facts{ grid-template-columns:repeat(2,1fr); } }
+.fact{ padding:clamp(18px,2.4vw,32px); border-right:1px solid var(--w-10); }
+.fact:last-child{ border-right:0; }
+@media (max-width:900px){ .fact:nth-child(2){ border-right:0; } .fact:nth-child(1),.fact:nth-child(2){ border-bottom:1px solid var(--w-10); } }
+.fact small{ display:block; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.24em; color:var(--w-40); margin-bottom:.7rem; }
+.fact span{ font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; line-height:1.7; }
+
+/* MARQUEE */
+.divider{ border-top:1px solid var(--w-10); border-bottom:1px solid var(--w-10); overflow:hidden; padding:16px 0; }
+.marq{ display:flex; white-space:nowrap; will-change:transform; }
+.marq span{ display:inline-flex; align-items:center; gap:34px; padding-right:34px; font-size:clamp(1rem,1.8vw,1.5rem);
+  font-weight:700; letter-spacing:-.01em; text-transform:uppercase; }
+.marq span em{ font-style:normal; color:var(--w-20); }
+
+/* SECTIONS */
+.sect{ padding:clamp(80px,12vh,150px) 0 0; }
+.sec-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:clamp(40px,6vw,80px); }
+.sec-head .l{ border-left:8px solid var(--white); padding-left:clamp(16px,2vw,28px); }
+.sec-head .meta{ display:block; margin-bottom:1rem; color:var(--w-50); }
+.sec-head h2{ font-size:clamp(2.4rem,7vw,6rem); }
+.sec-head .r{ text-align:right; font-size:10px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:var(--w-30); }
+
+.brief-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,6vw,90px); }
+@media (max-width:900px){ .brief-grid{ grid-template-columns:1fr; } }
+.brief-grid h3{ font-size:clamp(1.2rem,2vw,1.7rem); font-weight:700; text-transform:uppercase; margin-bottom:1.2rem; }
+.brief-grid p{ font-size:12px; font-weight:500; text-transform:uppercase; letter-spacing:.03em; line-height:1.9; color:var(--w-50); max-width:52ch; margin:0 0 1.4rem; }
+.brief-grid p b{ color:var(--white); font-weight:700; }
+
+/* workflow ledger */
+.group-lbl{ display:block; margin:clamp(40px,5vw,64px) 0 0; font-size:10px; font-weight:700; letter-spacing:.32em; text-transform:uppercase; color:var(--w-40); }
+.cap-row{ display:grid; grid-template-columns:auto 1fr auto; align-items:baseline; gap:24px; padding:24px 0; border-top:1px solid var(--w-10); }
+.cap-row:last-of-type{ border-bottom:1px solid var(--w-10); }
+.cap-row .n{ font-size:11px; font-weight:700; letter-spacing:.2em; color:var(--w-30); }
+.cap-row .t h3{ font-size:clamp(1.1rem,2vw,1.6rem); font-weight:700; text-transform:uppercase; letter-spacing:-.01em; }
+.cap-row .t p{ margin:.6rem 0 0; font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.05em; color:var(--w-40); max-width:52ch; line-height:1.8; }
+.cap-row .tools{ font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--w-40); white-space:nowrap; text-align:right; }
+@media (max-width:640px){ .cap-row{ grid-template-columns:auto 1fr; } .cap-row .tools{ display:none; } }
+
+/* architecture statement */
+.statement{ font-weight:600; text-transform:uppercase; letter-spacing:-.01em; line-height:1.06;
+  font-size:clamp(1.5rem,3.8vw,3.2rem); max-width:26ch; margin-top:1.2rem; }
+.statement b{ font-weight:700; } .statement em{ font-style:normal; color:var(--w-40); }
+
+/* metrics */
+.metrics{ margin-top:clamp(40px,5vw,70px); display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--w-10); }
+@media (max-width:700px){ .metrics{ grid-template-columns:repeat(2,1fr); } }
+.metric{ padding:clamp(24px,3vw,44px); border-right:1px solid var(--w-10); transition:background .3s var(--ease); }
+.metric:last-child{ border-right:0; }
+@media (max-width:700px){ .metric:nth-child(2){ border-right:0; } .metric:nth-child(1),.metric:nth-child(2){ border-bottom:1px solid var(--w-10);} }
+.metric:hover{ background:var(--w-05); }
+.metric b{ display:block; font-size:clamp(2.2rem,4vw,3.4rem); font-weight:700; letter-spacing:-.03em; }
+.metric small{ display:block; margin-top:.6rem; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.24em; color:var(--w-40); }
+
+/* timeline */
+.timeline{ margin-top:clamp(48px,7vw,96px); display:grid; grid-template-columns:1fr 1fr 1fr; }
+@media (max-width:900px){ .timeline{ grid-template-columns:1fr; } }
+.tl-item{ border-left:1px solid var(--w-20); padding:0 2rem 2.5rem; position:relative; }
+.tl-item::before{ content:""; position:absolute; left:-4px; top:2px; width:8px; height:8px; background:var(--white); }
+.tl-item .yr{ font-size:12px; font-weight:700; letter-spacing:.1em; color:var(--w-50); }
+.tl-item h3{ font-size:clamp(1.1rem,1.6vw,1.4rem); font-weight:700; text-transform:uppercase; margin:.9rem 0 .8rem; }
+.tl-item p{ font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.04em; line-height:1.8; color:var(--w-40); }
+
+/* CONTACT */
+.contact{ padding:clamp(90px,14vh,180px) 0 clamp(56px,8vh,110px); border-top:1px solid var(--w-10); margin-top:clamp(80px,12vh,150px); }
+.contact .l{ border-left:8px solid var(--white); padding-left:clamp(16px,2vw,28px); }
+.contact .meta{ display:block; margin-bottom:1.4rem; color:var(--w-50); }
+.contact a.big{ display:inline-block; }
+.contact a.big h2{ font-size:clamp(2.4rem,10vw,9rem); font-weight:700; letter-spacing:-.05em; text-transform:uppercase; line-height:.85; }
+.contact a.big .u{ display:block; height:3px; background:var(--white); transform:scaleX(0); transform-origin:left; transition:transform .6s var(--ease); margin-top:12px; }
+.contact a.big:hover .u{ transform:scaleX(1); }
+.contact-row{ display:flex; justify-content:space-between; gap:32px; flex-wrap:wrap; margin-top:clamp(50px,7vw,90px); }
+.contact-row .col small{ display:block; font-size:9px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:var(--w-40); margin-bottom:.9rem; }
+.contact-row .col a, .contact-row .col span{ display:block; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; line-height:1.9; }
+.contact-row .col a{ position:relative; width:max-content; }
+.contact-row .col a::after{ content:""; position:absolute; left:0; bottom:2px; width:100%; height:1px; background:var(--white); transform:scaleX(0); transform-origin:right; transition:transform .4s var(--ease); }
+.contact-row .col a:hover::after{ transform:scaleX(1); transform-origin:left; }
+.stark-btn{ display:inline-block; margin-top:clamp(40px,5vw,60px); border:2px solid var(--white); padding:1.3rem 2.6rem;
+  font-weight:700; text-transform:uppercase; letter-spacing:.3em; font-size:10px; color:var(--white);
+  transition:background .2s var(--ease), color .2s var(--ease), box-shadow .2s var(--ease); }
+.stark-btn:hover{ background:var(--white); color:var(--black); box-shadow:10px 10px 0 rgba(255,255,255,.2); }
+
+footer{ padding:28px var(--edge); border-top:1px solid var(--w-10); display:flex; justify-content:space-between;
+  align-items:center; gap:16px; flex-wrap:wrap; position:relative; z-index:10;
+  font-size:10px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:var(--w-30); }
+footer a:hover{ color:var(--white); }
+
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; scroll-behavior:auto !important; }
+  html.ready .rise{ opacity:1 !important; transform:none !important; }
+  html.ready .mask > i{ transform:none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="concrete" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a href="form.html" class="brand"><span>◆</span> <b>Denish Karki</b> <span>◆</span></a>
+  <div class="nav-right">
+    <a href="#system">System<span class="u"></span></a>
+    <a href="#architecture" class="hide-sm">Architecture<span class="u"></span></a>
+    <a href="#contact">Contact<span class="u"></span></a>
+  </div>
+</nav>
+
+<main>
+<!-- HERO -->
+<header class="hero wrap" id="top">
+  <div class="hero-top">
+    <span class="meta rise">Case_Study.01 // AI Automation</span>
+    <span class="meta rise" style="text-align:right;">Client: AlSaqar AlSarie — Dubai, UAE</span>
+  </div>
+
+  <div class="hero-head">
+    <span class="meta">System.Automation_v1.0</span>
+    <h1 class="hero-name black-type">
+      <span class="mask"><i>Twelve</i></span>
+      <span class="mask"><i>Workflows</i></span>
+    </h1>
+    <p class="hero-sub rise"><b>One AI engine. Six intake channels. Zero missed inquiries.</b> The entire front desk of a Dubai cleaning company, rebuilt as an n8n automation suite powered by Claude.</p>
+  </div>
+
+  <div class="hero-foot">
+    <div class="facts">
+      <div class="fact rise"><small>Client</small><span>AlSaqar AlSarie Cleaning Services EST — Dubai</span></div>
+      <div class="fact rise"><small>Role</small><span>Automation engineer — design, build, deploy</span></div>
+      <div class="fact rise"><small>Stack</small><span>n8n Cloud · Claude API · Postgres · Supabase</span></div>
+      <div class="fact rise"><small>Shipped</small><span>2026.07 — deployed to n8n Cloud</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- MARQUEE -->
+<div class="divider" aria-hidden="true">
+  <div class="marq" id="marq">
+    <span>WhatsApp <em>◆</em> Instagram <em>◆</em> Facebook <em>◆</em> Email <em>◆</em> Web Chat <em>◆</em> Web Form <em>◆</em> One AI Brain <em>◆</em>&nbsp;</span>
+    <span>WhatsApp <em>◆</em> Instagram <em>◆</em> Facebook <em>◆</em> Email <em>◆</em> Web Chat <em>◆</em> Web Form <em>◆</em> One AI Brain <em>◆</em>&nbsp;</span>
+  </div>
+</div>
+
+<!-- BRIEF -->
+<section class="sect wrap" id="brief">
+  <div class="sec-head">
+    <div class="l">
+      <span class="meta">01 // The Brief</span>
+      <h2 class="black-type"><span class="mask"><i>The</i></span><span class="mask"><i>Problem</i></span></h2>
+    </div>
+    <div class="r rise">Manual → Automated<br>Front.Desk.Sys</div>
+  </div>
+  <div class="brief-grid">
+    <div class="rise">
+      <h3>Before</h3>
+      <p>A service business in Dubai fields the same questions all day — <b>pricing, availability, booking</b> — across WhatsApp, Instagram, Facebook, email and the website. Every message answered by hand. Slow replies lose leads; late nights lose sleep.</p>
+    </div>
+    <div class="rise">
+      <h3>After</h3>
+      <p>Every channel routes into <b>one shared AI engine</b> that knows the business — services, prices, service areas — answers instantly in the customer's language, captures the lead, books the job on the calendar, chases the review, and reports the numbers. <b>Staff only step in when it matters.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEM / THE 12 WORKFLOWS -->
+<section class="sect wrap" id="system">
+  <div class="sec-head">
+    <div class="l">
+      <span class="meta">02 // System.Ledger</span>
+      <h2 class="black-type"><span class="mask"><i>The 12</i></span><span class="mask"><i>Workflows</i></span></h2>
+    </div>
+    <div class="r rise">( Hub &amp; Spoke )<br>n8n.Cloud</div>
+  </div>
+
+  <span class="group-lbl rise">Core — the shared brain</span>
+  <div class="cap-row rise">
+    <span class="n">SUB.01</span>
+    <div class="t"><h3>AI Engine</h3><p>The single Claude-powered brain every channel calls. Business knowledge, tone, language detection, intent routing — defined once, consistent everywhere.</p></div>
+    <span class="tools">Claude API · Code Nodes</span>
+  </div>
+  <div class="cap-row rise">
+    <span class="n">SUB.02</span>
+    <div class="t"><h3>Error Handler</h3><p>Central failure capture for the whole suite. Any workflow that breaks reports here — logged and alerted, never silently dropped.</p></div>
+    <span class="tools">Telegram Alerts · Logs</span>
+  </div>
+
+  <span class="group-lbl rise">Intake — six channels, one voice</span>
+  <div class="cap-row rise">
+    <span class="n">WF.01</span>
+    <div class="t"><h3>Website Chat</h3><p>Live chat on the client site, answered by the AI engine in real time.</p></div>
+    <span class="tools">Webhook · Chat</span>
+  </div>
+  <div class="cap-row rise">
+    <span class="n">WF.02</span>
+    <div class="t"><h3>Facebook Messenger</h3><p>Page messages auto-answered; leads extracted from the conversation.</p></div>
+    <span class="tools">Graph API</span>
+  </div>
+  <div class="cap-row rise">
+    <span class="n">WF.03</span>
+    <div class="t"><h3>Instagram DM</h3><p>DMs handled with the same brain — where the client's customers actually are.</p></div>
+    <span class="tools">Graph API</span>
+  </div>
+  <div class="cap-row rise">
+    <span class="n">WF.04</span>
+    <div class="t"><h3>Email</h3><p>Inbox triage and AI-drafted replies to inquiries — no message left unanswered overnight.</p></div>
+    <span class="tools">Gmail</span>
+  </div>
+  <div class="cap-row rise">
+    <span class="n">WF.05</span>
+    <div class="t"><h3>Web Form</h3><p>Quote requests from the site parsed, answered, and pushed into the lead pipeline.</p></div>
+    <span class="tools">Webhook</span>
+  </div>
+  <div class="cap-row rise">
+    <span class="n">WF.06</span>
+    <div class="t"><h3>WhatsApp</h3><p>The UAE's default business channel — instant AI replies on the number customers already use.</p></div>
+    <span class="tools">WhatsApp Business</span>
+  </div>
+
+  <span class="group-lbl rise">Operations — after the conversation</span>
+  <div class="cap-row rise">
+    <span class="n">WF.07</span>
+    <div class="t"><h3>Lead Capture</h3><p>Every conversation mined for name, phone, service, area — structured into the database and CRM automatically.</p></div>
+    <span class="tools">Postgres · Notion</span>
+  </div>
+  <div class="cap-row rise">
+    <span class="n">WF.08</span>
+    <div class="t"><h3>Booking &amp; Calendar</h3><p>Availability checked and jobs scheduled straight onto the operations calendar, timezone-correct for Dubai.</p></div>
+    <span class="tools">Google Calendar</span>
+  </div>
+  <div class="cap-row rise">
+    <span class="n">WF.09</span>
+    <div class="t"><h3>Review Chaser</h3><p>Post-job follow-ups that ask happy customers for the review — on time, every time.</p></div>
+    <span class="tools">Scheduled · Templates</span>
+  </div>
+  <div class="cap-row rise">
+    <span class="n">WF.10</span>
+    <div class="t"><h3>Analytics Digest</h3><p>Leads, bookings and channel performance rolled into a recurring report the owner actually reads.</p></div>
+    <span class="tools">Scheduled · Digest</span>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="sect wrap" id="architecture">
+  <div class="sec-head">
+    <div class="l">
+      <span class="meta">03 // Architecture.Notes</span>
+      <h2 class="black-type"><span class="mask"><i>Built to</i></span><span class="mask"><i>Not Break</i></span></h2>
+    </div>
+    <div class="r rise">Hub.And.Spoke<br>Asia/Dubai</div>
+  </div>
+
+  <p class="statement rise">Channels are <em>thin</em>. Intelligence lives in <b>one sub-workflow</b>, errors flow to <b>one handler</b>, and every constant is marked for handoff — <em>a system a client can own.</em></p>
+
+  <div class="metrics">
+    <div class="metric rise"><b>12</b><small>Workflows.Deployed</small></div>
+    <div class="metric rise"><b>06</b><small>Intake.Channels</small></div>
+    <div class="metric rise"><b>10+</b><small>Service.Integrations</small></div>
+    <div class="metric rise"><b>01</b><small>Shared.AI.Engine</small></div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item rise"><span class="yr">Phase.01</span><h3>Design</h3><p>Mapped every customer touchpoint into a hub-and-spoke system: six thin intake spokes, one AI hub, one error drain. Postgres schema for leads, bookings and conversation memory.</p></div>
+    <div class="tl-item rise"><span class="yr">Phase.02</span><h3>Build</h3><p>Twelve workflows built and wired in n8n — Claude API for the brain, Graph API for Meta channels, Gmail, Google Calendar, Supabase, Notion. Setup guides written for the credential handoff.</p></div>
+    <div class="tl-item rise" style="border-left-color:transparent;"><span class="yr">Phase.03</span><h3>Deploy</h3><p>Suite deployed to n8n Cloud with sub-workflows linked by ID, EDIT-marked constants for the client's keys, and Docker + self-host docs so the system outlives any one platform.</p></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="l">
+      <span class="meta">Access.Point // Your Business, Automated</span>
+      <a class="big" href="mailto:denishkarki928@gmail.com" aria-label="Email denishkarki928@gmail.com">
+        <h2 class="black-type"><span class="mask"><i>Automate</i></span><span class="mask"><i>Yours</i></span></h2>
+        <span class="u"></span>
+      </a>
+      <a class="stark-btn" href="mailto:denishkarki928@gmail.com">Request a Workflow Audit</a>
+    </div>
+    <div class="contact-row">
+      <div class="col rise"><small>Email</small><a href="mailto:denishkarki928@gmail.com">denishkarki928@gmail.com</a></div>
+      <div class="col rise"><small>Client Site</small><a href="https://denishkarki928-tech.github.io/alsaqar-alsarie/" target="_blank" rel="noopener noreferrer">AlSaqar AlSarie ↗</a></div>
+      <div class="col rise"><small>Based In</small><span>Kathmandu, Nepal<br>GMT+5:45</span></div>
+      <div class="col rise"><small>Status</small><span>Available — 2026</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span>◆ Case Study 01 — Al Saqar Automation</span>
+  <span>© <span id="yr"></span> Denish Karki</span>
+  <span><a href="form.html">◆ FORM ◆ ↗</a> &nbsp;·&nbsp; <a href="index.html">Classic ↗</a></span>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var HTML=document.documentElement;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  function safe(fn){ try{ fn(); }catch(e){} }
+
+  function reveals(){
+    HTML.classList.add('ready');
+    var items=[].slice.call(document.querySelectorAll('.rise, .mask'));
+    if(!('IntersectionObserver' in window)){ items.forEach(function(i){ i.classList.add('in'); }); return; }
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    },{ threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+    items.forEach(function(i){ io.observe(i); });
+    setTimeout(function(){
+      document.querySelectorAll('.hero .rise, .hero .mask, .facts .rise').forEach(function(i){ i.classList.add('in'); });
+    },60);
+  }
+
+  function marquee(){
+    if(reduce) return;
+    var m=document.getElementById('marq'), x=0, w=0, last=performance.now(), sp=0.03, boost=0;
+    function measure(){ w=m.firstElementChild.getBoundingClientRect().width; }
+    measure(); addEventListener('resize',measure);
+    addEventListener('scroll',function(){ boost=Math.min(boost+0.8,6); },{passive:true});
+    (function loop(now){
+      var dt=now-last; last=now;
+      boost*=0.92;
+      x-=(sp+boost)*dt*0.06;
+      if(w && -x>=w) x+=w;
+      m.style.transform='translateX('+x+'px)';
+      requestAnimationFrame(loop);
+    })(last);
+  }
+
+  safe(marquee);
+  safe(reveals);
+})();
+</script>
+</body>
+</html>
